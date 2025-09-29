@@ -19,4 +19,4 @@ autor = input("Digite o autor do livro: ")
 ano = int(input("Insirar o ano do livro: "))
 
 funcoes.cadastrar_livro(titulo,autor,ano)
-print(funcoes.listar_livro())
+
