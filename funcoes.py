@@ -13,7 +13,11 @@ def listar_livro():
     conexao = sqlite3.connect("Biblioteca.db")
     cursor = conexao.cursor()
     cursor.execute("SELECT * FROM Biblioteca")
-#fetchall traz todas as linhas da consulta
+
     for linha in cursor.fetchall(): 
         return(f"ID {linha[0]}| Título: {linha[1]} | Ano: {linha[2]} | Autor: {linha[3]} | Disponivel : {linha[4]}")
+def update_dispon():
+    conexao = sqlite3.connect("Biblioteca.db")
+    cursor = conexao.cursor()
 
+    cursor.execute("SELECT")
