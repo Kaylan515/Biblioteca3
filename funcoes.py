@@ -16,8 +16,24 @@ def listar_livro():
 
     for linha in cursor.fetchall(): 
         return(f"ID {linha[0]}| Título: {linha[1]} | Ano: {linha[2]} | Autor: {linha[3]} | Disponivel : {linha[4]}")
-def update_dispon():
+def update_dispon(id_livro):
     conexao = sqlite3.connect("Biblioteca.db")
     cursor = conexao.cursor()
+    cursor.execute("SELECT disponivel FROM Biblioteca WHERE id = ?", (id_livro,))
+    resultado = cursor.fetchone()
 
-    cursor.execute("SELECT")
+    if resultado:
+        status_atual = resultado[0]
+        novo_status = "Não" if status_atual == "Sim" else "Sim"
+
+        cursor.execute("""
+            UPDATE Biblioteca
+            SET disponivel = ?
+            WHERE id = ?
+        """, (novo_status, id_livro))
+        conexao.commit()
+        print(f"Disponibilidade do livro ID {id_livro} alterada para: {novo_status}")
+    else:
+        print(f"Erro: Livro com ID {id_livro} não encontrado.")
+    conexao.close()
+
