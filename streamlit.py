@@ -51,7 +51,6 @@ elif opcao == "Cadastrar Novo Livro":
 elif opcao == "Atualizar/Remover Livro":
     st.header("Gerenciamento de Livros")
     
-    
     st.warning("Para Atualizar ou Remover, digite o ID e clique em apenas um botão.")
     
     id_selecionado = st.number_input("Digite o ID do livro", min_value=1, step=1, key="manage_id")
@@ -75,7 +74,19 @@ elif opcao == "Atualizar/Remover Livro":
                 st.experimental_rerun()
             else:
                 st.warning("Insira um ID.")
-
+    
     st.markdown("---")
     st.subheader("Livros Atuais (para referência de ID):")
-    funcoes.listar_livro()
+    
+    conexao = sqlite3.connect("Biblioteca.db")
+    cursor = conexao.cursor()
+    cursor.execute("SELECT id, título, autor, ano, disponivel FROM Biblioteca")
+    livros_data = cursor.fetchall()
+    conexao.close()
+    
+    if livros_data:
+        headers = ["ID", "Título", "Autor", "Ano", "Disponível"]
+        tabela_completa = [headers] + list(livros_data)
+        st.table(tabela_completa)
+    else:
+        st.info("Nenhum livro para gerenciar.")
